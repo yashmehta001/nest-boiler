@@ -6,7 +6,7 @@ export const env = {
   isProduction: process.env.NODE_ENV === 'production',
   isTest: process.env.NODE_ENV === 'stagging',
   isDevelopment: process.env.NODE_ENV === 'development',
-  port: 0 > parseInt(process.env.PORT) ? parseInt(process.env.PORT) : 3000,
+  port: 0 < parseInt(process.env.PORT) ? parseInt(process.env.PORT) : 3000,
   db: {
     type: getOsEnv('DB_CONNECTION'),
     host: getOsEnvOptional('DB_HOST'),
