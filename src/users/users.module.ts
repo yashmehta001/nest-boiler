@@ -6,9 +6,12 @@ import { UserService } from './services/users.service';
 import { UserRepository } from './repository/user.repository';
 import { HashService } from 'src/utils/hash/hash.service';
 import { BcryptService } from 'src/utils/hash/bcrypt/bcrypt.service';
+import { TokenService } from 'src/utils/token/token.service';
+import { JwtService } from 'src/utils/token/jwt.service';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([UserEntity])],
+  imports: [TypeOrmModule.forFeature([UserEntity]), JwtModule],
   controllers: [UsersController],
   providers: [
     UserService,
@@ -16,6 +19,10 @@ import { BcryptService } from 'src/utils/hash/bcrypt/bcrypt.service';
     {
       provide: HashService,
       useClass: BcryptService,
+    },
+    {
+      provide: TokenService,
+      useClass: JwtService,
     },
   ],
 })

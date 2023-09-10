@@ -16,4 +16,8 @@ export const env = {
     database: getOsEnv('DB_DATABASE'),
     logging: getOsEnv('DB_LOGGING'),
   },
+  jwt: {
+    secret: getOsEnv('JWT_SECRET'),
+    expiresIn: parseInt(getOsEnv('JWT_ACCESS_TOKEN_TTL')),
+  },
 };

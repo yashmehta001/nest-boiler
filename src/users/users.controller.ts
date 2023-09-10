@@ -10,7 +10,7 @@ import {
   UserLoginReqDto,
   UserLoginResDto,
 } from './dto/index';
-// import { Serialize } from 'src/utils/loaders/SerializeDto';
+import { Serialize } from 'src/utils/loaders/SerializeDto';
 import { UserService } from './services/users.service';
 
 @ApiTags('User')
@@ -18,7 +18,7 @@ import { UserService } from './services/users.service';
 export class UsersController {
   constructor(private readonly userService: UserService) {}
 
-  //   @Serialize(UserLoginResDto)
+  @Serialize(UserLoginResDto)
   @ApiResponse({
     description: 'for more information please check UserCreateReqDto schema',
   })
@@ -37,7 +37,7 @@ export class UsersController {
   }
 
   @Post('/login')
-  //   @Serialize(UserLoginResDto)
+  @Serialize(UserLoginResDto)
   @ApiResponse({
     description: 'for more information please check UserLoginReqDto schema',
   })
