@@ -25,8 +25,6 @@ export class SerializeDtoInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     return next.handle().pipe(
       map((data) => {
-        // console.log(data);
-        // console.log(this.responseDto);
         return {
           isError: false,
           message: this.message,

@@ -1,6 +1,7 @@
 import { Body, Controller, Get, Headers, HttpCode, HttpStatus, Post } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
+  ApiBearerAuth,
   ApiOkResponse,
   ApiResponse,
   ApiTags,
@@ -67,12 +68,13 @@ export class UsersController {
   })
   @ApiOkResponse({
     description: 'When user profile is successfully retrived then this response will receive',
-    type: UserLoginResDto,
+    type: UserResDto,
   })
   @ApiBadRequestResponse({
     description:
       'when user not found',
   })
+  @ApiBearerAuth()
   @Get('/profile')
   async profile(@Headers('user') user: UserProfileReqDto){
     return this.userService.profile(user);
