@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Headers, HttpCode, HttpStatus, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Headers,
+  HttpCode,
+  HttpStatus,
+  Post,
+} from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiBearerAuth,
@@ -61,22 +69,21 @@ export class UsersController {
     return this.userService.loginUser(body);
   }
 
-
   @Serialize(UserResDto)
   @ApiResponse({
     description: 'for more information please check UserLoginReqDto schema',
   })
   @ApiOkResponse({
-    description: 'When user profile is successfully retrived then this response will receive',
+    description:
+      'When user profile is successfully retrived then this response will receive',
     type: UserResDto,
   })
   @ApiBadRequestResponse({
-    description:
-      'when user not found',
+    description: 'when user not found',
   })
   @ApiBearerAuth()
   @Get('/profile')
-  async profile(@Headers('user') user: UserProfileReqDto){
+  async profile(@Headers('user') user: UserProfileReqDto) {
     return this.userService.profile(user);
   }
 }

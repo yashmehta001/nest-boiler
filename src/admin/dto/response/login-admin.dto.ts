@@ -4,25 +4,25 @@ import { Expose } from 'class-transformer';
 export class AdminResDto {
   @Expose()
   @ApiProperty({
-    example: '1'
+    example: '1',
   })
   id: number;
 
   @Expose()
   @ApiProperty({
-    example: 'John'
+    example: 'John',
   })
   firstName: string;
 
   @Expose()
   @ApiProperty({
-    example: 'Doe'
+    example: 'Doe',
   })
   lastName: string;
 
   @Expose()
   @ApiProperty({
-    example: 'john@doe.com'
+    example: 'john@doe.com',
   })
   email: string;
 }
