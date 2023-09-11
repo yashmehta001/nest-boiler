@@ -1,8 +1,8 @@
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { UserCreateReqDto, UserLoginReqDto } from '../dto';
 import { UserRepository } from '../repository/user.repository';
+import { TokenService } from 'src/utils/token/services';
 import { HashService } from 'src/utils/hash/hash.service';
-import { TokenService } from 'src/utils/token/token.service';
 import { UserType } from 'src/utils/token/types/user.enum';
 
 @Injectable()
@@ -30,7 +30,7 @@ export class UserService {
     };
     return {
       user: { ...user },
-      token: await this.tokenService.token(token),
+      token: `Bearer ${await this.tokenService.token(token)}`,
     };
   }
 
@@ -53,7 +53,7 @@ export class UserService {
     };
     return {
       user: { ...user },
-      token: await this.tokenService.token(token),
+      token: `Bearer ${await this.tokenService.token(token)}`,
     };
   }
 }

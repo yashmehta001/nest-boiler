@@ -12,12 +12,15 @@ import {
 } from './dto/index';
 import { Serialize } from 'src/utils/loaders/SerializeDto';
 import { UserService } from './services/users.service';
+import { AuthType } from 'src/utils/token/types';
+import { Auth } from 'src/utils/decorators/auth.decorator';
 
 @ApiTags('User')
 @Controller('user')
 export class UsersController {
   constructor(private readonly userService: UserService) {}
 
+  @Auth(AuthType.None)
   @Serialize(UserLoginResDto)
   @ApiResponse({
     description: 'for more information please check UserCreateReqDto schema',
@@ -36,7 +39,7 @@ export class UsersController {
     return this.userService.createUser(body);
   }
 
-  @Post('/login')
+  @Auth(AuthType.None)
   @Serialize(UserLoginResDto)
   @ApiResponse({
     description: 'for more information please check UserLoginReqDto schema',
