@@ -1,4 +1,4 @@
-import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
+import { Body, Controller, Get, Headers, HttpCode, HttpStatus, Post } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiOkResponse,
@@ -9,6 +9,8 @@ import {
   UserCreateReqDto,
   UserLoginReqDto,
   UserLoginResDto,
+  UserProfileReqDto,
+  UserResDto,
 } from './dto/index';
 import { Serialize } from 'src/utils/loaders/SerializeDto';
 import { UserService } from './services/users.service';
@@ -56,5 +58,23 @@ export class UsersController {
   @Post('/login')
   async login(@Body() body: UserLoginReqDto) {
     return this.userService.loginUser(body);
+  }
+
+
+  @Serialize(UserResDto)
+  @ApiResponse({
+    description: 'for more information please check UserLoginReqDto schema',
+  })
+  @ApiOkResponse({
+    description: 'When user profile is successfully retrived then this response will receive',
+    type: UserLoginResDto,
+  })
+  @ApiBadRequestResponse({
+    description:
+      'when user not found',
+  })
+  @Get('/profile')
+  async profile(@Headers('user') user: UserProfileReqDto){
+    return this.userService.profile(user);
   }
 }

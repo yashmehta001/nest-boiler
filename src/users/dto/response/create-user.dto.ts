@@ -4,8 +4,8 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class UserLoginResDto {
   @Expose()
-  // @Type(() => UserResDto)
-  @ApiProperty({ type: () => UserResDto })  // Use lazy resolver
+  @Type(() => UserResDto )
+  @ApiProperty({ type: () => UserResDto })
   user: UserResDto;
 
   @Expose()

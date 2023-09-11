@@ -1,5 +1,5 @@
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
-import { UserCreateReqDto, UserLoginReqDto } from '../dto';
+import { UserCreateReqDto, UserLoginReqDto, UserResDto } from '../dto';
 import { UserRepository } from '../repository/user.repository';
 import { TokenService } from 'src/utils/token/services';
 import { HashService } from 'src/utils/hash/hash.service';
@@ -55,5 +55,13 @@ export class UserService {
       user: { ...user },
       token: `Bearer ${await this.tokenService.token(token)}`,
     };
+  }
+
+  async profile(body:UserResDto){
+    const user = await this.userRepository.getById(body.id)
+    if (!user) {
+      throw new BadRequestException();
+    }
+    return user;
   }
 }
