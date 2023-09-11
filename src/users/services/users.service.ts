@@ -57,8 +57,8 @@ export class UserService {
     };
   }
 
-  async profile(body:UserResDto){
-    const user = await this.userRepository.getById(body.id)
+  async profile(body: UserResDto) {
+    const user = await this.userRepository.getById(body.id);
     if (!user) {
       throw new BadRequestException();
     }

@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Headers, HttpCode, HttpStatus, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Headers,
+  HttpCode,
+  HttpStatus,
+  Post,
+} from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiBearerAuth,
@@ -10,7 +18,13 @@ import { Serialize } from 'src/utils/loaders/SerializeDto';
 import { AuthType } from 'src/utils/token/types';
 import { Auth } from 'src/utils/decorators/auth.decorator';
 import { AdminService } from './services/admin.service';
-import { AdminCreateReqDto, AdminLoginReqDto, AdminLoginResDto, AdminProfileReqDto, AdminResDto } from './dto';
+import {
+  AdminCreateReqDto,
+  AdminLoginReqDto,
+  AdminLoginResDto,
+  AdminProfileReqDto,
+  AdminResDto,
+} from './dto';
 
 @ApiTags('Admin')
 @Controller('admin')
@@ -42,12 +56,12 @@ export class AdminController {
     description: 'for more information please check AdminLoginReqDto schema',
   })
   @ApiOkResponse({
-    description: 'When admin login successfully then this response will receive',
+    description:
+      'When admin login successfully then this response will receive',
     type: AdminLoginResDto,
   })
   @ApiBadRequestResponse({
-    description:
-      'when admin email or password is wrong',
+    description: 'when admin email or password is wrong',
   })
   @HttpCode(HttpStatus.OK)
   @Post('/login')
@@ -55,22 +69,21 @@ export class AdminController {
     return this.adminService.loginAdmin(body);
   }
 
-
   @Serialize(AdminResDto)
   @ApiBearerAuth()
   @ApiResponse({
     description: 'for more information please check AdminLoginReqDto schema',
   })
   @ApiOkResponse({
-    description: 'When user profile is successfully retrived then this response will receive',
+    description:
+      'When user profile is successfully retrived then this response will receive',
     type: AdminResDto,
   })
   @ApiBadRequestResponse({
-    description:
-      'when user not found',
+    description: 'when user not found',
   })
   @Get('/profile')
-  async profile(@Headers('user') user: AdminProfileReqDto){
+  async profile(@Headers('user') user: AdminProfileReqDto) {
     return this.adminService.profile(user);
   }
 }
