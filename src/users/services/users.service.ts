@@ -28,7 +28,10 @@ export class UserService {
       email: user.email,
       userType: UserType.USER,
     };
-    return this.tokenService.token(token);
+    return {
+      user: { ...user },
+      token: await this.tokenService.token(token),
+    };
   }
 
   async loginUser(body: UserLoginReqDto) {
@@ -48,6 +51,9 @@ export class UserService {
       email: user.email,
       userType: UserType.USER,
     };
-    return this.tokenService.token(token);
+    return {
+      user: { ...user },
+      token: await this.tokenService.token(token),
+    };
   }
 }
