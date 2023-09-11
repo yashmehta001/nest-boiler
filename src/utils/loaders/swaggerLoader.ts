@@ -6,6 +6,7 @@ export const swaggerLoader = function (app: INestApplication): void {
   const config = new DocumentBuilder()
     .setTitle('Shop')
     .setDescription('Shop API Description')
+    .addBearerAuth()
     .setVersion('1.0')
     .build();
 

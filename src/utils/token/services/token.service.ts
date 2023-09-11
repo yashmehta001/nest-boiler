@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common/decorators';
-import { userType } from './types/user.types';
+import { userType } from '../types';
 
 @Injectable()
 export abstract class TokenService {

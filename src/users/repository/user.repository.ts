@@ -29,4 +29,12 @@ export class UserRepository implements IUserRepository {
       },
     });
   }
+
+  async getById(id: number): Promise<UserEntity | undefined> {
+    return this.userEntity.findOne({
+      where: {
+        id,
+      },
+    });
+  }
 }

@@ -1,12 +1,12 @@
 import { Expose, Type } from 'class-transformer';
-import { UserResDto } from '../index';
+import { AdminResDto } from '../index';
 import { ApiProperty } from '@nestjs/swagger';
 
-export class UserLoginResDto {
+export class AdminLoginResDto {
   @Expose()
-  @Type(() => UserResDto )
-  @ApiProperty({ type: () => UserResDto })
-  user: UserResDto;
+  @Type(() => AdminResDto )
+  @ApiProperty({ type: () => AdminResDto })
+  user: AdminResDto;
 
   @Expose()
   @ApiProperty({
