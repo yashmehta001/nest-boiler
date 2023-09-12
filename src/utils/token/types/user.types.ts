@@ -1,7 +1,7 @@
 import { UserType } from './user.enum';
 
 export type userType = {
-  id: number;
+  id: string;
   email?: string;
   userType?: UserType;
 };

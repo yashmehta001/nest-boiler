@@ -45,7 +45,7 @@ export class UserRepository implements IUserRepository {
     }
   }
 
-  async getById(id: number): Promise<UserEntity> {
+  async getById(id: string): Promise<UserEntity> {
     try {
       return await this.userEntity.findOneOrFail({
         where: {

@@ -4,9 +4,9 @@ import { Expose } from 'class-transformer';
 export class UserResDto {
   @Expose()
   @ApiProperty({
-    example: '1',
+    example: '109156be-c4fb-41ea-b1b4-efe1671c5836',
   })
-  id: number;
+  id: string;
 
   @Expose()
   @ApiProperty({

@@ -1,5 +1,5 @@
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
-import { AdminCreateReqDto, AdminLoginReqDto, AdminResDto } from '../dto';
+import { AdminCreateReqDto, AdminLoginReqDto, AdminProfileReqDto, AdminResDto } from '../dto';
 import { AdminRepository } from '../repository/admin.repository';
 import { TokenService } from 'src/utils/token/services';
 import { HashService } from 'src/utils/hash/hash.service';
@@ -51,11 +51,8 @@ export class AdminService {
     };
   }
 
-  async profile(body: AdminResDto) {
+  async profile(body: AdminProfileReqDto) {
     const user = await this.adminRepository.getById(body.id);
-    if (!user) {
-      throw new BadRequestException();
-    }
     return user;
   }
 }

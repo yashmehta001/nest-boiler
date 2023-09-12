@@ -45,7 +45,7 @@ export class AdminRepository implements IAdminRepository {
     }
   }
 
-  async getById(id: number): Promise<AdminEntity | undefined> {
+  async getById(id: string): Promise<AdminEntity | undefined> {
     try {
       return await this.adminEntity.findOneOrFail({
         where: {
