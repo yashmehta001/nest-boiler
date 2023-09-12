@@ -69,6 +69,7 @@ export class AdminController {
     return this.adminService.loginAdmin(body);
   }
 
+  @Auth(AuthType.AdminBearer)
   @Serialize(AdminResDto)
   @ApiBearerAuth()
   @ApiResponse({
