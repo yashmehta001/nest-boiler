@@ -8,9 +8,10 @@ import { HashService } from 'src/utils/hash/hash.service';
 import { BcryptService } from 'src/utils/hash/bcrypt/bcrypt.service';
 import { TokenService, JwtService } from 'src/utils/token/services';
 import { JwtModule } from '@nestjs/jwt';
+import { LoggerModule } from 'src/utils/logger/logger.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([UserEntity]), JwtModule],
+  imports: [TypeOrmModule.forFeature([UserEntity]), JwtModule, LoggerModule],
   controllers: [UsersController],
   providers: [
     UserService,

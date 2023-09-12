@@ -1,4 +1,4 @@
-import { UserType } from "src/utils/token/types";
+import { UserType } from 'src/utils/token/types';
 
 export class AdminProfileReqDto {
   id: string;
