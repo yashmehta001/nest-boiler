@@ -5,7 +5,6 @@ import {
   HttpException,
 } from '@nestjs/common';
 import { Response } from 'express';
-import { errorType } from './types';
 
 @Catch(HttpException)
 export class ExceptionHandlerFilter<T extends HttpException>
@@ -17,13 +16,13 @@ export class ExceptionHandlerFilter<T extends HttpException>
 
     const status = exception.getStatus();
     const exceptionResponse = exception.getResponse();
-    const error: errorType =
+    const error =
       typeof response === 'string'
         ? { message: exceptionResponse }
         : (exceptionResponse as object);
     response.status(status).json({
       Error: true,
-      message: [error.message],
+      message: [error],
       data: {},
     });
   }

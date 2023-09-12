@@ -3,6 +3,11 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { AdminEntity } from '../entities';
 import { Repository } from 'typeorm/repository/Repository';
 import { AdminCreateReqDto } from '../dto';
+import {
+  NotFoundException,
+  authFailedException,
+  emailExistsException,
+} from '../errors';
 
 export interface IAdminRepository {
   save(userEntity: AdminEntity): Promise<AdminEntity>;
@@ -17,24 +22,38 @@ export class AdminRepository implements IAdminRepository {
     private readonly adminEntity: Repository<AdminEntity>,
   ) {}
 
-  save(admin: AdminCreateReqDto): Promise<AdminEntity> {
-    const AdminEntity = this.adminEntity.create(admin);
-    return this.adminEntity.save(AdminEntity);
+  async save(admin: AdminCreateReqDto): Promise<AdminEntity> {
+    try {
+      const AdminEntity = this.adminEntity.create(admin);
+      return await this.adminEntity.save(AdminEntity);
+    } catch (error) {
+      if (error.code === '23505') {
+        throw new emailExistsException();
+      }
+    }
   }
 
   async getByEmail(email: string): Promise<AdminEntity | undefined> {
-    return this.adminEntity.findOne({
-      where: {
-        email,
-      },
-    });
+    try {
+      return await this.adminEntity.findOneOrFail({
+        where: {
+          email,
+        },
+      });
+    } catch (error) {
+      throw new authFailedException();
+    }
   }
 
   async getById(id: number): Promise<AdminEntity | undefined> {
-    return this.adminEntity.findOne({
-      where: {
-        id,
-      },
-    });
+    try {
+      return await this.adminEntity.findOneOrFail({
+        where: {
+          id,
+        },
+      });
+    } catch (error) {
+      throw new NotFoundException();
+    }
   }
 }
