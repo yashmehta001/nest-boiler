@@ -17,13 +17,12 @@ export class ExceptionHandlerFilter<T extends HttpException>
 
     const status = exception.getStatus();
     const exceptionResponse = exception.getResponse();
-    const error: errorType =
-      typeof response === 'string'
+    const error = typeof response === 'string'
         ? { message: exceptionResponse }
         : (exceptionResponse as object);
     response.status(status).json({
       Error: true,
-      message: [error.message],
+      message: [error],
       data: {},
     });
   }
