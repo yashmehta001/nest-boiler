@@ -1,2 +1,3 @@
 export * from './authentication.guard';
-export * from './token.guard';
+export * from './userToken.guard';
+export * from './adminToken.guard';
