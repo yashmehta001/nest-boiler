@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { AdminModule } from 'src/admin/admin.module';
 import { AppSeeder } from './app.seeder';
-import { LoggerModule } from 'src/utils/logger/logger.module';
+import { LoggerModule } from '../../utils/logger/logger.module';
 import { DatabaseProvider } from '../config/database.providers';
 
 @Module({

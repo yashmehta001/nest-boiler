@@ -8,7 +8,7 @@ import {
   authFailedException,
   emailExistsException,
 } from '../errors';
-import { LoggerService } from 'src/utils/logger/winstonLogger';
+import { LoggerService } from '../../utils/logger/winstonLogger';
 
 export interface IUserRepository {
   save(userEntity: UserEntity): Promise<UserEntity>;

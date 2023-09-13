@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { AdminService } from 'src/admin/services/admin.service';
-import { LoggerService } from 'src/utils/logger/winstonLogger';
+import { AdminService } from '../../admin/services/admin.service';
+import { LoggerService } from '../../utils/logger/winstonLogger';
 
 @Injectable()
 export class AppSeeder {

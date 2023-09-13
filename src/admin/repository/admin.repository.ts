@@ -8,7 +8,7 @@ import {
   authFailedException,
   emailExistsException,
 } from '../errors';
-import { LoggerService } from 'src/utils/logger/winstonLogger';
+import { LoggerService } from '../../utils/logger/WinstonLogger';
 
 export interface IAdminRepository {
   save(userEntity: AdminEntity): Promise<AdminEntity>;

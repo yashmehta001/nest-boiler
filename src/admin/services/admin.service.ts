@@ -5,11 +5,11 @@ import {
   AdminProfileReqDto,
 } from '../dto';
 import { AdminRepository } from '../repository/admin.repository';
-import { TokenService } from 'src/utils/token/services';
-import { HashService } from 'src/utils/hash/hash.service';
-import { UserType } from 'src/utils/token/types/user.enum';
+import { TokenService } from '../../utils/token/services';
+import { HashService } from '../../utils/hash/hash.service';
+import { UserType } from '../../utils/token/types/user.enum';
 import { authFailedException } from '../errors';
-import { LoggerService } from 'src/utils/logger/winstonLogger';
+import { LoggerService } from '../../utils/logger/winstonLogger';
 import { AdminUsersSeedData } from '../seed-data/admin-user.seed-data';
 
 @Injectable()

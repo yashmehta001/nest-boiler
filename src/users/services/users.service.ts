@@ -1,11 +1,11 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { UserCreateReqDto, UserLoginReqDto, UserProfileReqDto } from '../dto';
 import { UserRepository } from '../repository/user.repository';
-import { TokenService } from 'src/utils/token/services';
-import { HashService } from 'src/utils/hash/hash.service';
-import { UserType } from 'src/utils/token/types/user.enum';
+import { TokenService } from '../../utils/token/services';
+import { HashService } from '../../utils/hash/hash.service';
+import { UserType } from '../../utils/token/types/user.enum';
 import { authFailedException } from '../errors';
-import { LoggerService } from 'src/utils/logger/winstonLogger';
+import { LoggerService } from '../../utils/logger/winstonLogger';
 
 @Injectable()
 export class UserService {
