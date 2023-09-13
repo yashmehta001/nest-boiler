@@ -4,7 +4,11 @@ import { UserRepository } from '../repository/user.repository';
 import { TokenService } from '../../utils/token/services';
 import { HashService } from '../../utils/hash/hash.service';
 import { UserType } from '../../utils/token/types/user.enum';
-import { NotFoundException, authFailedException, emailExistsException } from '../errors';
+import {
+  NotFoundException,
+  authFailedException,
+  emailExistsException,
+} from '../errors';
 import { LoggerService } from '../../utils/logger/winstonLogger';
 
 @Injectable()
@@ -26,7 +30,7 @@ export class UserService {
       `${UserService.logInfo} Create User with email: ${body.email}`,
     );
     body.password = await this.hashService.hash(body.password);
-    try{
+    try {
       const user = await this.userRepository.save(body);
       const token = {
         id: user.id,
@@ -40,7 +44,7 @@ export class UserService {
         user: { ...user },
         token: `Bearer ${await this.tokenService.token(token)}`,
       };
-    }catch(error){
+    } catch (error) {
       if (error.code === '23505') {
         this.logger.warn(
           `${UserService.logInfo} Already Exists! User with email: ${body.email}`,
@@ -54,7 +58,7 @@ export class UserService {
     this.logger.info(
       `${UserService.logInfo} Login User with email: ${body.email}`,
     );
-    try{
+    try {
       const user = await this.userRepository.getByEmail(body.email);
       const isEqual = await this.hashService.compare(
         body.password,
@@ -78,7 +82,7 @@ export class UserService {
         user: { ...user },
         token: `Bearer ${await this.tokenService.token(token)}`,
       };
-    }catch (error) {
+    } catch (error) {
       this.logger.warn(
         `${UserService.logInfo} Incorrect Email or Password for Email: ${body.email}`,
       );
@@ -90,13 +94,13 @@ export class UserService {
     this.logger.info(
       `${UserService.logInfo} Find User Profile with id: ${body.id}`,
     );
-    try{
+    try {
       const user = await this.userRepository.getById(body.id);
       this.logger.info(
         `${UserService.logInfo} Found User Profile with id: ${body.id}`,
       );
       return user;
-    }catch(error){
+    } catch (error) {
       this.logger.warn(
         `${UserService.logInfo} Not Found! User with id: ${body.id}`,
       );

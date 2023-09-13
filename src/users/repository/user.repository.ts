@@ -19,26 +19,24 @@ export class UserRepository implements IUserRepository {
     private readonly userEntity: Repository<UserEntity>,
   ) {}
 
-  static logInfo = 'Database - User:';
-
   async save(userInfo: UserCreateReqDto): Promise<UserEntity> {
     const userEntity = this.userEntity.create(userInfo);
     return await this.userEntity.save(userEntity);
   }
 
   async getByEmail(email: string): Promise<UserEntity | undefined> {
-      return await this.userEntity.findOneOrFail({
-        where: {
-          email,
-        },
-      });
+    return await this.userEntity.findOneOrFail({
+      where: {
+        email,
+      },
+    });
   }
 
   async getById(id: string): Promise<UserEntity> {
-      return await this.userEntity.findOneOrFail({
-        where: {
-          id,
-        },
-      });
+    return await this.userEntity.findOneOrFail({
+      where: {
+        id,
+      },
+    });
   }
 }
