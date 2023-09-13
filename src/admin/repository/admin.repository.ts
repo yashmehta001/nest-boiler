@@ -30,20 +30,20 @@ export class AdminRepository implements IAdminRepository {
 
   async save(adminInfo: AdminCreateReqDto): Promise<AdminEntity> {
     this.logger.info(
-      `${AdminRepository.logInfo}: Insert Admin with email: ${adminInfo.email}`,
+      `${AdminRepository.logInfo} Insert Admin with email: ${adminInfo.email}`,
     );
     const adminEntity = this.adminEntity.create(adminInfo);
 
     try {
       const admin = await this.adminEntity.save(adminEntity);
       this.logger.info(
-        `${AdminRepository.logInfo}: Inserted Admin with email: ${adminInfo.email}`,
+        `${AdminRepository.logInfo} Inserted Admin with email: ${adminInfo.email}`,
       );
       return admin;
     } catch (error) {
       if (error.code === '23505') {
         this.logger.warn(
-          `${AdminRepository.logInfo}: Already Exists! Admin with email: ${adminInfo.email}`,
+          `${AdminRepository.logInfo} Already Exists! Admin with email: ${adminInfo.email}`,
         );
         throw new emailExistsException();
       }
@@ -53,7 +53,7 @@ export class AdminRepository implements IAdminRepository {
   async getByEmail(email: string): Promise<AdminEntity | undefined> {
     try {
       this.logger.info(
-        `${AdminRepository.logInfo}: Select Admin with email: ${email}`,
+        `${AdminRepository.logInfo} Select Admin with email: ${email}`,
       );
       const admin = await this.adminEntity.findOneOrFail({
         where: {
@@ -61,12 +61,12 @@ export class AdminRepository implements IAdminRepository {
         },
       });
       this.logger.info(
-        `${AdminRepository.logInfo}: Selected Admin with email: ${email}`,
+        `${AdminRepository.logInfo} Selected Admin with email: ${email}`,
       );
       return admin;
     } catch (error) {
       this.logger.warn(
-        `${AdminRepository.logInfo}: Not Found! Admin with email: ${email}`,
+        `${AdminRepository.logInfo} Not Found! Admin with email: ${email}`,
       );
       throw new authFailedException();
     }
@@ -75,7 +75,7 @@ export class AdminRepository implements IAdminRepository {
   async getById(id: string): Promise<AdminEntity | undefined> {
     try {
       this.logger.info(
-        `${AdminRepository.logInfo}: Select Admin with id: ${id}`,
+        `${AdminRepository.logInfo} Select Admin with id: ${id}`,
       );
       const admin = await this.adminEntity.findOneOrFail({
         where: {
@@ -83,12 +83,12 @@ export class AdminRepository implements IAdminRepository {
         },
       });
       this.logger.info(
-        `${AdminRepository.logInfo}: Selected Admin with id: ${id}`,
+        `${AdminRepository.logInfo} Selected Admin with id: ${id}`,
       );
       return admin;
     } catch (error) {
       this.logger.warn(
-        `${AdminRepository.logInfo}: Not Found! Admin with id: ${id}`,
+        `${AdminRepository.logInfo} Not Found! Admin with id: ${id}`,
       );
       throw new NotFoundException();
     }

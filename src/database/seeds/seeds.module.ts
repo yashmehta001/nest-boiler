@@ -5,7 +5,7 @@ import { LoggerModule } from 'src/utils/logger/logger.module';
 import { DatabaseProvider } from '../config/database.providers';
 
 @Module({
-    imports:[AdminModule, LoggerModule, DatabaseProvider],
-    providers: [AppSeeder],
+  imports: [AdminModule, LoggerModule, DatabaseProvider],
+  providers: [AppSeeder],
 })
 export class SeedsModule {}

@@ -83,19 +83,17 @@ export class AdminService {
     return user;
   }
 
-  async seedAdminUserGroup():Promise<void>{
-    this.logger.info(
-      `${AdminService.logInfo} Seeding Admin Users`,
-    );
-    
-    if(AdminUsersSeedData && AdminUsersSeedData.length>0){
-      for(let i=0; i<AdminUsersSeedData.length; i++){
-        AdminUsersSeedData[i].password = await this.hashService.hash(AdminUsersSeedData[i].password)
-        await this.adminRepository.save(AdminUsersSeedData[i])
+  async seedAdminUserGroup(): Promise<void> {
+    this.logger.info(`${AdminService.logInfo} Seeding Admin Users`);
+
+    if (AdminUsersSeedData && AdminUsersSeedData.length > 0) {
+      for (let i = 0; i < AdminUsersSeedData.length; i++) {
+        AdminUsersSeedData[i].password = await this.hashService.hash(
+          AdminUsersSeedData[i].password,
+        );
+        await this.adminRepository.save(AdminUsersSeedData[i]);
       }
     }
-    this.logger.info(
-      `${AdminService.logInfo} Seeded Admin Users`,
-    );
+    this.logger.info(`${AdminService.logInfo} Seeded Admin Users`);
   }
 }
