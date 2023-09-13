@@ -23,7 +23,7 @@ export class UserService {
 
   async createUser(body: UserCreateReqDto) {
     this.logger.info(
-      `${UserService.logInfo} Create User with email : ${body.email}`,
+      `${UserService.logInfo} Create User with email: ${body.email}`,
     );
     body.password = await this.hashService.hash(body.password);
     const user = await this.userRepository.save(body);
@@ -33,7 +33,7 @@ export class UserService {
       userType: UserType.USER,
     };
     this.logger.info(
-      `${UserService.logInfo} Created User with email : ${body.email}`,
+      `${UserService.logInfo} Created User with email: ${body.email}`,
     );
     return {
       user: { ...user },
@@ -43,7 +43,7 @@ export class UserService {
 
   async loginUser(body: UserLoginReqDto) {
     this.logger.info(
-      `${UserService.logInfo} Login User with email : ${body.email}`,
+      `${UserService.logInfo} Login User with email: ${body.email}`,
     );
     const user = await this.userRepository.getByEmail(body.email);
     const isEqual = await this.hashService.compare(
@@ -52,7 +52,7 @@ export class UserService {
     );
     if (!isEqual) {
       this.logger.warn(
-        `${UserService.logInfo} Authentication Failed for User with email : ${body.email}`,
+        `${UserService.logInfo} Authentication Failed for User with email: ${body.email}`,
       );
       throw new authFailedException();
     }
@@ -62,7 +62,7 @@ export class UserService {
       userType: UserType.USER,
     };
     this.logger.info(
-      `${UserService.logInfo} LoggedIn User with email : ${body.email}`,
+      `${UserService.logInfo} LoggedIn User with email: ${body.email}`,
     );
     return {
       user: { ...user },
@@ -72,11 +72,11 @@ export class UserService {
 
   async profile(body: UserProfileReqDto) {
     this.logger.info(
-      `${UserService.logInfo} Find User Profile with email : ${body.id}`,
+      `${UserService.logInfo} Find User Profile with id: ${body.id}`,
     );
     const user = await this.userRepository.getById(body.id);
     this.logger.info(
-      `${UserService.logInfo} Found User Profile with email : ${body.id}`,
+      `${UserService.logInfo} Found User Profile with id: ${body.id}`,
     );
     return user;
   }
