@@ -1,6 +1,7 @@
 import * as dotenv from 'dotenv';
-import { getOsEnv, getOsEnvOptional } from './utils/env/env-extensions';
+import { checkEmail, getOsEnv, getOsEnvOptional } from './utils/env/env-extensions';
 dotenv.config();
+
 export const env = {
   node: process.env.NODE_ENV || 'development',
   isProduction: process.env.NODE_ENV === 'production',
@@ -20,4 +21,10 @@ export const env = {
     secret: getOsEnv('JWT_SECRET'),
     expiresIn: parseInt(getOsEnv('JWT_ACCESS_TOKEN_TTL')),
   },
+  admin:{
+    firstName:getOsEnv('ADMIN_FIRST_NAME'),
+    lastName:getOsEnv('ADMIN_LAST_NAME'),
+    email:checkEmail('ADMIN_EMAIL'),
+    password: getOsEnv('ADMIN_PASSWORD'),
+  }
 };

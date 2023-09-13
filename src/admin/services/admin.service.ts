@@ -10,6 +10,7 @@ import { HashService } from 'src/utils/hash/hash.service';
 import { UserType } from 'src/utils/token/types/user.enum';
 import { authFailedException } from '../errors';
 import { LoggerService } from 'src/utils/logger/winstonLogger';
+import { AdminUsersSeedData } from '../seed-data/admin-user.seed-data';
 
 @Injectable()
 export class AdminService {
@@ -80,5 +81,21 @@ export class AdminService {
       `${AdminService.logInfo} Found Admin Profile with id: ${body.id}`,
     );
     return user;
+  }
+
+  async seedAdminUserGroup():Promise<void>{
+    this.logger.info(
+      `${AdminService.logInfo} Seeding Admin Users`,
+    );
+    
+    if(AdminUsersSeedData && AdminUsersSeedData.length>0){
+      for(let i=0; i<AdminUsersSeedData.length; i++){
+        AdminUsersSeedData[i].password = await this.hashService.hash(AdminUsersSeedData[i].password)
+        await this.adminRepository.save(AdminUsersSeedData[i])
+      }
+    }
+    this.logger.info(
+      `${AdminService.logInfo} Seeded Admin Users`,
+    );
   }
 }

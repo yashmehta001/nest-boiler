@@ -9,6 +9,8 @@ import {
   UserAccessTokenGuard,
 } from './token/guards';
 import { LoggerModule } from './logger/logger.module';
+import { HashService } from './hash/hash.service';
+import { BcryptService } from './hash/bcrypt/bcrypt.service';
 
 @Module({
   imports: [HashModule, JwtModule, LoggerModule],
@@ -21,8 +23,13 @@ import { LoggerModule } from './logger/logger.module';
       provide: APP_GUARD,
       useClass: AuthenticationGuard,
     },
+    {
+      provide: HashService,
+      useClass: BcryptService,
+    },
     UserAccessTokenGuard,
     AdminAccessTokenGuard,
   ],
+  exports:[]
 })
 export class UtilsModule {}
