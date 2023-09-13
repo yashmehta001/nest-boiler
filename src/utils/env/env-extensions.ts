@@ -14,7 +14,7 @@ export function getOsEnvOptional(key: string): string | undefined {
 
 export function checkEmail(key: string): string {
   const email = getOsEnv(key);
-  if (!isEmail(email)){
+  if (!isEmail(email)) {
     throw new Error(`Environment Variable ${key} is not an email`);
   }
   return email;

@@ -25,5 +25,6 @@ import { LoggerModule } from '../utils/logger/logger.module';
       useClass: JwtService,
     },
   ],
+  exports: [UserService],
 })
 export class UsersModule {}
