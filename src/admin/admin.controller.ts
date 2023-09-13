@@ -14,9 +14,9 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { Serialize } from 'src/utils/loaders/SerializeDto';
-import { AuthType } from 'src/utils/token/types';
-import { Auth } from 'src/utils/decorators/auth.decorator';
+import { Serialize } from '../utils/loaders/SerializeDto';
+import { AuthType } from '../utils/token/types';
+import { Auth } from '../utils/decorators/auth.decorator';
 import { AdminService } from './services/admin.service';
 import {
   AdminCreateReqDto,

@@ -21,10 +21,10 @@ import {
   UserProfileReqDto,
   UserResDto,
 } from './dto/index';
-import { Serialize } from 'src/utils/loaders/SerializeDto';
+import { Serialize } from '../utils/loaders/SerializeDto';
 import { UserService } from './services/users.service';
-import { AuthType } from 'src/utils/token/types';
-import { Auth } from 'src/utils/decorators/auth.decorator';
+import { AuthType } from '../utils/token/types';
+import { Auth } from '../utils/decorators/auth.decorator';
 
 @ApiTags('User')
 @Controller('user')

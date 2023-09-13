@@ -30,6 +30,6 @@ import { BcryptService } from './hash/bcrypt/bcrypt.service';
     UserAccessTokenGuard,
     AdminAccessTokenGuard,
   ],
-  exports:[]
+  exports: [],
 })
 export class UtilsModule {}

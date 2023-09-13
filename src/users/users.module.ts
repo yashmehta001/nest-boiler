@@ -4,11 +4,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserEntity } from './entities/user.entities';
 import { UserService } from './services/users.service';
 import { UserRepository } from './repository/user.repository';
-import { HashService } from 'src/utils/hash/hash.service';
-import { BcryptService } from 'src/utils/hash/bcrypt/bcrypt.service';
-import { TokenService, JwtService } from 'src/utils/token/services';
+import { HashService } from '../utils/hash/hash.service';
+import { BcryptService } from '../utils/hash/bcrypt/bcrypt.service';
+import { TokenService, JwtService } from '../utils/token/services';
 import { JwtModule } from '@nestjs/jwt';
-import { LoggerModule } from 'src/utils/logger/logger.module';
+import { LoggerModule } from '../utils/logger/logger.module';
 
 @Module({
   imports: [TypeOrmModule.forFeature([UserEntity]), JwtModule, LoggerModule],
@@ -25,5 +25,6 @@ import { LoggerModule } from 'src/utils/logger/logger.module';
       useClass: JwtService,
     },
   ],
+  exports: [UserService],
 })
 export class UsersModule {}
