@@ -1,1 +1,1 @@
-export * from './unauthorisedException.error'
+export * from './unauthorisedException.error';

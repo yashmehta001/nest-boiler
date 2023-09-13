@@ -1,8 +1,4 @@
-import {
-  CanActivate,
-  ExecutionContext,
-  Injectable,
-} from '@nestjs/common';
+import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
 import { env } from 'src/env';
@@ -22,8 +18,8 @@ export class UserAccessTokenGuard implements CanActivate {
 
     try {
       const payload = await this.jwtService.verifyAsync(token, env.jwt);
-      if(payload.userType !== UserType.USER){
-        throw new UnauthorizedException()
+      if (payload.userType !== UserType.USER) {
+        throw new UnauthorizedException();
       }
       request.headers[REQUEST_USER_KEY] = payload;
     } catch (error) {

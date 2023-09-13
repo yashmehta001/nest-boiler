@@ -62,5 +62,4 @@ export class UserEntity {
       this.id = uuidv4();
     }
   }
-
 }

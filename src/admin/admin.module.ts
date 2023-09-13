@@ -8,9 +8,10 @@ import { AdminRepository } from './repository/admin.repository';
 import { HashService } from 'src/utils/hash/hash.service';
 import { BcryptService } from 'src/utils/hash/bcrypt/bcrypt.service';
 import { TokenService, JwtService } from 'src/utils/token/services';
+import { LoggerModule } from 'src/utils/logger/logger.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([AdminEntity]), JwtModule],
+  imports: [TypeOrmModule.forFeature([AdminEntity]), JwtModule, LoggerModule],
   controllers: [AdminController],
   providers: [
     AdminService,

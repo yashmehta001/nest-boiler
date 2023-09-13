@@ -1,8 +1,4 @@
-import {
-  CanActivate,
-  ExecutionContext,
-  Injectable,
-} from '@nestjs/common';
+import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { UserAccessTokenGuard } from './userToken.guard';
 import { Reflector } from '@nestjs/core';
 import { AuthType } from '../types';
