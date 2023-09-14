@@ -219,20 +219,10 @@ describe('AdminService', () => {
 
   describe('Seed-data Admin', () => {
     it('Should Seed database when entering valid seed Data', async () => {
-      jest.mock('../../seed-data/admin-user.seed-data.ts', () => {
-        AdminUsersSeedData: [
-          {
-            firstName: 'john',
-            lastName: 'doe',
-            email: 'john@doe.com',
-            password: '123456',
-          },
-        ];
-      });
       const expected = {
         id: '929270f8-f62e-4580-8533-10d473ce520a',
         firstName: 'john',
-        lastName: 'doe',
+        lastName: 'Snow',
         email: 'john@doe.com',
         password:
           '$2b$10$4Dz7cd/nTzDm2Dm2vRbYs.SQUtRrV2pE/Z7L82XataOOJklLPiM.2',
@@ -240,12 +230,30 @@ describe('AdminService', () => {
         updatedAt: '2023-09-13T01:41:57.449Z',
         deletedAt: null,
       };
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
+      require('../../seed-data/admin-user.seed-data').AdminUsersSeedData = [
+        {
+          firstName: 'john',
+          lastName: 'Snow',
+          email: 'john@doe.com',
+          password: '123456',
+        },
+      ];
+
       hashService.hash.mockReturnValue(expected.password);
       adminRepository.save.mockReturnValue(expected);
       await adminService.seedAdminUserGroup();
 
       expect(adminRepository.save).toHaveBeenCalledTimes(1);
       expect(hashService.hash).toHaveBeenCalledTimes(1);
+    });
+    it('Should Not Seed database when entering Invalid seed Data', async () => {
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
+      require('../../seed-data/admin-user.seed-data').AdminUsersSeedData = [{}];
+      await adminService.seedAdminUserGroup();
+
+      expect(adminRepository.save).not.toHaveBeenCalled();
+      expect(hashService.hash).not.toHaveBeenCalled();
     });
   });
 });

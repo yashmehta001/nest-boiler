@@ -112,15 +112,18 @@ export class AdminService {
 
   async seedAdminUserGroup(): Promise<void> {
     this.logger.info(`${AdminService.logInfo} Seeding Admin Users`);
-
-    if (AdminUsersSeedData && AdminUsersSeedData.length > 0) {
+    if (AdminUsersSeedData?.[0]?.email) {
       for (let i = 0; i < AdminUsersSeedData.length; i++) {
         AdminUsersSeedData[i].password = await this.hashService.hash(
           AdminUsersSeedData[i].password,
         );
         await this.adminRepository.save(AdminUsersSeedData[i]);
       }
+      this.logger.info(`${AdminService.logInfo} Seeded Admin Users`);
+    } else {
+      this.logger.warn(
+        `${AdminService.logInfo} Seed Admin Users Data not Found`,
+      );
     }
-    this.logger.info(`${AdminService.logInfo} Seeded Admin Users`);
   }
 }
