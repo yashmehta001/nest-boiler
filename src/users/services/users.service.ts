@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { UserCreateReqDto, UserLoginReqDto, UserProfileReqDto } from '../dto';
-import { UserRepository } from '../repository/user.repository';
+import { UserRepository } from '../repository/users.repository';
 import { TokenService } from '../../utils/token/services';
 import { HashService } from '../../utils/hash/hash.service';
 import { UserType } from '../../utils/token/types/user.enum';
@@ -65,9 +65,6 @@ export class UserService {
         user.password,
       );
       if (!isEqual) {
-        this.logger.warn(
-          `${UserService.logInfo} Authentication Failed for User with email: ${body.email}`,
-        );
         throw new authFailedException();
       }
       const token = {
