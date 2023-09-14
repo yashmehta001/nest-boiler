@@ -11,7 +11,11 @@ import {
   AdminLoginReqDto,
   AdminProfileReqDto,
 } from '../../dto';
-import { NotFoundException, authFailedException, emailExistsException } from '../../errors';
+import {
+  NotFoundException,
+  authFailedException,
+  emailExistsException,
+} from '../../errors';
 import { mockHashService, mockTokenService } from '../mocks';
 
 describe('AdminService', () => {
@@ -88,15 +92,15 @@ describe('AdminService', () => {
         email: 'john@doe.com',
         password: '123456',
       };
-      const duplicateKeyError = { code: '23505' }
+      const duplicateKeyError = { code: '23505' };
       adminRepository.save.mockRejectedValue(duplicateKeyError);
-      try{
+      try {
         await adminService.createAdmin(body);
-      }catch(error){
+      } catch (error) {
         expect(tokenService.token).not.toHaveBeenCalled();
         expect(error).toBeInstanceOf(emailExistsException);
       }
-    })
+    });
   });
 
   describe('Login Admin Test', () => {
@@ -210,6 +214,38 @@ describe('AdminService', () => {
       } catch (error) {
         expect(error).toBeInstanceOf(NotFoundException);
       }
+    });
+  });
+
+  describe('Seed-data Admin', () => {
+    it('Should Seed database when entering valid seed Data', async () => {
+      jest.mock('../../seed-data/admin-user.seed-data.ts', () => {
+        AdminUsersSeedData: [
+          {
+            firstName: 'john',
+            lastName: 'doe',
+            email: 'john@doe.com',
+            password: '123456',
+          },
+        ];
+      });
+      const expected = {
+        id: '929270f8-f62e-4580-8533-10d473ce520a',
+        firstName: 'john',
+        lastName: 'doe',
+        email: 'john@doe.com',
+        password:
+          '$2b$10$4Dz7cd/nTzDm2Dm2vRbYs.SQUtRrV2pE/Z7L82XataOOJklLPiM.2',
+        createdAt: '2023-09-13T01:41:57.449Z',
+        updatedAt: '2023-09-13T01:41:57.449Z',
+        deletedAt: null,
+      };
+      hashService.hash.mockReturnValue(expected.password);
+      adminRepository.save.mockReturnValue(expected);
+      await adminService.seedAdminUserGroup();
+
+      expect(adminRepository.save).toHaveBeenCalledTimes(1);
+      expect(hashService.hash).toHaveBeenCalledTimes(1);
     });
   });
 });
