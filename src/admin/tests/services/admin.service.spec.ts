@@ -6,12 +6,16 @@ import { LoggerService } from '../../../utils/logger/WinstonLogger';
 import { TokenService } from '../../../utils/token/services';
 import { mockAdminRepository } from '../mocks/admin.repository.mock';
 import { UserType } from '../../../utils/token/types';
-import { AdminProfileReqDto } from '../../dto';
+import { AdminLoginReqDto, AdminProfileReqDto } from '../../dto';
 import { NotFoundException } from '../../errors';
+import { mockHashService, mockTokenService } from '../mocks';
 
 describe('AdminService', () => {
   let adminService: AdminService;
   let adminRepository;
+  let hashService;
+  let tokenService;
+
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -19,11 +23,11 @@ describe('AdminService', () => {
         LoggerService,
         {
           provide: HashService,
-          useValue: {},
+          useFactory: mockHashService,
         },
         {
           provide: TokenService,
-          useValue: {},
+          useFactory: mockTokenService,
         },
         {
           provide: AdminRepository,
@@ -31,12 +35,43 @@ describe('AdminService', () => {
         },
       ],
     }).compile();
-    adminService = await module.get<AdminService>(AdminService);
-    adminRepository = await module.get<AdminRepository>(AdminRepository);
+    adminService = module.get<AdminService>(AdminService);
+    adminRepository = module.get<AdminRepository>(AdminRepository);
+    hashService = module.get<HashService>(HashService);
+    tokenService = module.get<TokenService>(TokenService);
   });
 
   it('adminService should be defined', () => {
     expect(adminService).toBeDefined();
+  });
+
+  describe('Login Test', () => {
+    it('Get User Info and token when entering valid user email', async () => {
+      const body: AdminLoginReqDto = {
+        email: 'john@doe.com',
+        password: '123456',
+      };
+      const expected = {
+        id: '929270f8-f62e-4580-8533-10d473ce520a',
+        firstName: 'john',
+        lastName: 'doe',
+        email: 'john@doe.com',
+        password:
+          '$2b$10$4Dz7cd/nTzDm2Dm2vRbYs.SQUtRrV2pE/Z7L82XataOOJklLPiM.2',
+        createdAt: '2023-09-13T01:41:57.449Z',
+        updatedAt: '2023-09-13T01:41:57.449Z',
+        deletedAt: null,
+      };
+      const token = 'token';
+      adminRepository.getByEmail.mockReturnValue(expected);
+      hashService.compare.mockReturnValue(true);
+      tokenService.token.mockReturnValue(token);
+      const admin = await adminService.loginAdmin(body);
+      expect(admin).toEqual({
+        token: `Bearer ${token}`,
+        user: { ...expected },
+      });
+    });
   });
 
   describe('Profile Test', () => {
@@ -71,7 +106,7 @@ describe('AdminService', () => {
         iat: 1234,
         exp: 1234,
       };
-  
+
       adminRepository.getById.mockRejectedValue(new NotFoundException());
       try {
         await adminService.profile(body);
