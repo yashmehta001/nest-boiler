@@ -45,8 +45,9 @@ describe('AdminService', () => {
     expect(adminService).toBeDefined();
   });
 
-  describe('Login Test', () => {
-    
+  
+
+  describe('Login Admin Test', () => {
     it('Get User Info and token when entering valid Email and Password', async () => {
       const body: AdminLoginReqDto = {
         email: 'john@doe.com',
@@ -74,7 +75,7 @@ describe('AdminService', () => {
         user: { ...expected },
       });
     });
-    
+
     it('Get User Info and Token when entering valid Email and Invalid Password', async () => {
       const body: AdminLoginReqDto = {
         email: 'john@doe.com',
@@ -100,9 +101,24 @@ describe('AdminService', () => {
         expect(error).toBeInstanceOf(authFailedException);
       }
     });
+
+    it('Get User Info and Token when entering Invalid Email and Password', async () => {
+      const body: AdminLoginReqDto = {
+        email: 'john@doe.com',
+        password: '123456',
+      };
+      adminRepository.getByEmail.mockRejectedValue(new NotFoundException());
+      try {
+        await adminService.loginAdmin(body);
+      } catch (error) {
+        expect(hashService.compare).not.toHaveBeenCalled();
+        expect(tokenService.token).not.toHaveBeenCalled();
+        expect(error).toBeInstanceOf(authFailedException);
+      }
+    });
   });
 
-  describe('Profile Test', () => {
+  describe('Profile Admin Test', () => {
     it('Get Profile where ID exists Should Return Profile Object', async () => {
       const body: AdminProfileReqDto = {
         id: '929270f8-f62e-4580-8533-10d473ce520a',
