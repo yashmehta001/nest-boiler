@@ -7,7 +7,7 @@ import { TokenService } from '../../../utils/token/services';
 import { mockAdminRepository } from '../mocks/admin.repository.mock';
 import { UserType } from '../../../utils/token/types';
 import { AdminLoginReqDto, AdminProfileReqDto } from '../../dto';
-import { NotFoundException } from '../../errors';
+import { NotFoundException, authFailedException } from '../../errors';
 import { mockHashService, mockTokenService } from '../mocks';
 
 describe('AdminService', () => {
@@ -46,7 +46,8 @@ describe('AdminService', () => {
   });
 
   describe('Login Test', () => {
-    it('Get User Info and token when entering valid user email', async () => {
+    
+    it('Get User Info and token when entering valid Email and Password', async () => {
       const body: AdminLoginReqDto = {
         email: 'john@doe.com',
         password: '123456',
@@ -67,10 +68,37 @@ describe('AdminService', () => {
       hashService.compare.mockReturnValue(true);
       tokenService.token.mockReturnValue(token);
       const admin = await adminService.loginAdmin(body);
+      expect(tokenService.token).toHaveBeenCalled();
       expect(admin).toEqual({
         token: `Bearer ${token}`,
         user: { ...expected },
       });
+    });
+    
+    it('Get User Info and Token when entering valid Email and Invalid Password', async () => {
+      const body: AdminLoginReqDto = {
+        email: 'john@doe.com',
+        password: '123456',
+      };
+      const expected = {
+        id: '929270f8-f62e-4580-8533-10d473ce520a',
+        firstName: 'john',
+        lastName: 'doe',
+        email: 'john@doe.com',
+        password:
+          '$2b$10$4Dz7cd/nTzDm2Dm2vRbYs.SQUtRrV2pE/Z7L82XataOOJklLPiM.2',
+        createdAt: '2023-09-13T01:41:57.449Z',
+        updatedAt: '2023-09-13T01:41:57.449Z',
+        deletedAt: null,
+      };
+      adminRepository.getByEmail.mockReturnValue(expected);
+      hashService.compare.mockReturnValue(false);
+      try {
+        await adminService.loginAdmin(body);
+      } catch (error) {
+        expect(tokenService.token).not.toHaveBeenCalled();
+        expect(error).toBeInstanceOf(authFailedException);
+      }
     });
   });
 
