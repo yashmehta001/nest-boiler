@@ -11,7 +11,7 @@ import {
   AdminLoginReqDto,
   AdminProfileReqDto,
 } from '../../dto';
-import { NotFoundException, authFailedException } from '../../errors';
+import { NotFoundException, authFailedException, emailExistsException } from '../../errors';
 import { mockHashService, mockTokenService } from '../mocks';
 
 describe('AdminService', () => {
@@ -80,6 +80,23 @@ describe('AdminService', () => {
         user: { ...expected },
       });
     });
+
+    it('Throw emailExistsException when entering dublicate email', async () => {
+      const body: AdminCreateReqDto = {
+        firstName: 'john',
+        lastName: 'doe',
+        email: 'john@doe.com',
+        password: '123456',
+      };
+      const duplicateKeyError = { code: '23505' }
+      adminRepository.save.mockRejectedValue(duplicateKeyError);
+      try{
+        await adminService.createAdmin(body);
+      }catch(error){
+        expect(tokenService.token).not.toHaveBeenCalled();
+        expect(error).toBeInstanceOf(emailExistsException);
+      }
+    })
   });
 
   describe('Login Admin Test', () => {
