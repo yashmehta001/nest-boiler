@@ -6,7 +6,11 @@ import { LoggerService } from '../../../utils/logger/WinstonLogger';
 import { TokenService } from '../../../utils/token/services';
 import { mockAdminRepository } from '../mocks/admin.repository.mock';
 import { UserType } from '../../../utils/token/types';
-import { AdminLoginReqDto, AdminProfileReqDto } from '../../dto';
+import {
+  AdminCreateReqDto,
+  AdminLoginReqDto,
+  AdminProfileReqDto,
+} from '../../dto';
 import { NotFoundException, authFailedException } from '../../errors';
 import { mockHashService, mockTokenService } from '../mocks';
 
@@ -45,7 +49,38 @@ describe('AdminService', () => {
     expect(adminService).toBeDefined();
   });
 
-  
+  describe('Create Admin Test', () => {
+    it('Get User Info and token when entering valid FirstName LastName Email and Password', async () => {
+      const body: AdminCreateReqDto = {
+        firstName: 'john',
+        lastName: 'doe',
+        email: 'john@doe.com',
+        password: '123456',
+      };
+      const expected = {
+        id: '929270f8-f62e-4580-8533-10d473ce520a',
+        firstName: 'john',
+        lastName: 'doe',
+        email: 'john@doe.com',
+        password:
+          '$2b$10$4Dz7cd/nTzDm2Dm2vRbYs.SQUtRrV2pE/Z7L82XataOOJklLPiM.2',
+        createdAt: '2023-09-13T01:41:57.449Z',
+        updatedAt: '2023-09-13T01:41:57.449Z',
+        deletedAt: null,
+      };
+      const token = 'token';
+      hashService.hash.mockReturnValue(expected.password);
+      tokenService.token.mockReturnValue(token);
+      adminRepository.save.mockReturnValue(expected);
+      const admin = await adminService.createAdmin(body);
+
+      expect(tokenService.token).toHaveBeenCalled();
+      expect(admin).toEqual({
+        token: `Bearer ${token}`,
+        user: { ...expected },
+      });
+    });
+  });
 
   describe('Login Admin Test', () => {
     it('Get User Info and token when entering valid Email and Password', async () => {
@@ -76,7 +111,7 @@ describe('AdminService', () => {
       });
     });
 
-    it('Get User Info and Token when entering valid Email and Invalid Password', async () => {
+    it('Throw authFailedException when entering valid Email and Invalid Password', async () => {
       const body: AdminLoginReqDto = {
         email: 'john@doe.com',
         password: '123456',
@@ -102,7 +137,7 @@ describe('AdminService', () => {
       }
     });
 
-    it('Get User Info and Token when entering Invalid Email and Password', async () => {
+    it('Throw authFailedException when entering Invalid Email and Password', async () => {
       const body: AdminLoginReqDto = {
         email: 'john@doe.com',
         password: '123456',
@@ -142,7 +177,7 @@ describe('AdminService', () => {
       const user = await adminService.profile(body);
       expect(user).toEqual(expected);
     });
-    it('Get Profile where ID Doesnt Exists Should throw NotFoundException ', async () => {
+    it('Throw NotFoundException When ID Doesnt Exists', async () => {
       const body: AdminProfileReqDto = {
         id: '929270f8-f62e-4580-8533-10d473ce520a',
         userType: UserType.ADMIN,
