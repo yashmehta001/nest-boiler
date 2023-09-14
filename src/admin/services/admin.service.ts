@@ -97,11 +97,11 @@ export class AdminService {
       `${AdminService.logInfo} Find Admin Profile with id: ${body.id}`,
     );
     try {
-      const user = await this.adminRepository.getById(body.id);
+      const admin = await this.adminRepository.getById(body.id);
       this.logger.info(
         `${AdminService.logInfo} Found Admin Profile with id: ${body.id}`,
       );
-      return user;
+      return admin;
     } catch (error) {
       this.logger.warn(
         `${AdminService.logInfo} Not Found! Admin with id: ${body.id}`,
