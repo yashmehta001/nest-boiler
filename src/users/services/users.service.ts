@@ -11,8 +11,14 @@ import {
 } from '../errors';
 import { LoggerService } from '../../utils/logger/winstonLogger';
 
+export interface IUserService {
+  createUser(body: UserCreateReqDto): Promise<any>;
+  loginUser(body: UserLoginReqDto): Promise<any>;
+  profile(body: UserProfileReqDto): Promise<any>;
+}
+
 @Injectable()
-export class UserService {
+export class UserService implements IUserService {
   constructor(
     @Inject(UserRepository)
     private readonly userRepository: UserRepository,

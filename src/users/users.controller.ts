@@ -19,7 +19,7 @@ import {
   UserLoginReqDto,
   UserLoginResDto,
   UserProfileReqDto,
-  UserResDto,
+  UserProfileResDto,
 } from './dto/index';
 import { Serialize } from '../utils/loaders/SerializeDto';
 import { UserService } from './services/users.service';
@@ -69,14 +69,14 @@ export class UsersController {
     return this.userService.loginUser(body);
   }
 
-  @Serialize(UserResDto)
+  @Serialize(UserProfileResDto)
   @ApiResponse({
     description: 'for more information please check UserLoginReqDto schema',
   })
   @ApiOkResponse({
     description:
       'When user profile is successfully retrived then this response will receive',
-    type: UserResDto,
+    type: UserProfileResDto,
   })
   @ApiBadRequestResponse({
     description: 'when user not found',

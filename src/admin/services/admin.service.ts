@@ -16,8 +16,14 @@ import {
 import { LoggerService } from '../../utils/logger/winstonLogger';
 import { AdminUsersSeedData } from '../seed-data/admin-user.seed-data';
 
+export interface IAdminService {
+  createAdmin(body: AdminCreateReqDto): Promise<any>;
+  loginAdmin(body: AdminLoginReqDto): Promise<any>;
+  profile(body: AdminProfileReqDto): Promise<any>;
+}
+
 @Injectable()
-export class AdminService {
+export class AdminService implements IAdminService {
   constructor(
     @Inject(AdminRepository)
     private readonly adminRepository: AdminRepository,
