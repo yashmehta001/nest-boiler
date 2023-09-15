@@ -23,7 +23,7 @@ import {
   AdminLoginReqDto,
   AdminLoginResDto,
   AdminProfileReqDto,
-  AdminResDto,
+  AdminProfileResDto,
 } from './dto';
 
 @ApiTags('Admin')
@@ -70,7 +70,7 @@ export class AdminController {
   }
 
   @Auth(AuthType.AdminBearer)
-  @Serialize(AdminResDto)
+  @Serialize(AdminProfileResDto)
   @ApiBearerAuth()
   @ApiResponse({
     description: 'for more information please check AdminLoginReqDto schema',
@@ -78,7 +78,7 @@ export class AdminController {
   @ApiOkResponse({
     description:
       'When user profile is successfully retrived then this response will receive',
-    type: AdminResDto,
+    type: AdminProfileResDto,
   })
   @ApiBadRequestResponse({
     description: 'when user not found',
