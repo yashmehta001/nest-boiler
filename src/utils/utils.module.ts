@@ -3,11 +3,7 @@ import { HashModule } from './hash/hash.module';
 import { TokenService, JwtService } from './token/services';
 import { JwtModule } from '@nestjs/jwt';
 import { APP_GUARD } from '@nestjs/core';
-import {
-  AdminAccessTokenGuard,
-  AuthenticationGuard,
-  UserAccessTokenGuard,
-} from './token/guards';
+import { AuthenticationGuard, UserAccessTokenGuard } from './token/guards';
 import { LoggerModule } from './logger/logger.module';
 import { HashService } from './hash/hash.service';
 import { BcryptService } from './hash/bcrypt/bcrypt.service';
@@ -28,7 +24,6 @@ import { BcryptService } from './hash/bcrypt/bcrypt.service';
       useClass: BcryptService,
     },
     UserAccessTokenGuard,
-    AdminAccessTokenGuard,
   ],
   exports: [],
 })

@@ -3,7 +3,6 @@ import { UserAccessTokenGuard } from './userToken.guard';
 import { Reflector } from '@nestjs/core';
 import { AuthType } from '../types';
 import { AUTH_TYPE_KEY } from '../../decorators/auth.decorator';
-import { AdminAccessTokenGuard } from './adminToken.guard';
 import { UnauthorizedException } from '../errors';
 
 @Injectable()
@@ -14,14 +13,12 @@ export class AuthenticationGuard implements CanActivate {
     CanActivate | CanActivate[]
   > = {
     [AuthType.UserBearer]: this.userAccessTokenGuard,
-    [AuthType.AdminBearer]: this.adminAccessTokenGuard,
     [AuthType.None]: { canActivate: () => true },
   };
 
   constructor(
     private readonly reflector: Reflector,
     private readonly userAccessTokenGuard: UserAccessTokenGuard,
-    private readonly adminAccessTokenGuard: AdminAccessTokenGuard,
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
