@@ -2,7 +2,7 @@ version: '3'
 services:
   database:
     image: postgres:latest
-    container_name: postgres
+    container_name: postgres_db
     environment:
       POSTGRES_DB: ${DB_DATABASE}
       POSTGRES_USER: ${DB_USERNAME}

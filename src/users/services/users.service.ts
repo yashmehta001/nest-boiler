@@ -9,7 +9,8 @@ import {
   authFailedException,
   emailExistsException,
 } from '../errors';
-import { LoggerService } from '../../utils/logger/winstonLogger';
+import { LoggerService } from '../../utils/logger/WinstonLogger';
+
 
 export interface IUserService {
   createUser(body: UserCreateReqDto): Promise<any>;
