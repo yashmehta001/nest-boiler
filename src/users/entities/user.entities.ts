@@ -1,15 +1,13 @@
+import { AuditInfo } from '../../core/entities';
 import {
   BeforeInsert,
   Column,
-  CreateDateColumn,
-  DeleteDateColumn,
   Entity,
   Index,
   PrimaryGeneratedColumn,
   Unique,
-  UpdateDateColumn,
 } from 'typeorm';
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuid } from 'uuid';
 
 @Entity({
   name: 'users',
@@ -38,28 +36,13 @@ export class UserEntity {
   @Column()
   password: string;
 
-  @CreateDateColumn({
-    name: 'created_at',
-    type: 'timestamp',
-  })
-  createdAt: Date;
-
-  @UpdateDateColumn({
-    name: 'updated_at',
-    type: 'timestamp',
-  })
-  updatedAt: Date;
-
-  @DeleteDateColumn({
-    name: 'deleted_at',
-    type: 'timestamp',
-  })
-  deletedAt: Date;
+  @Column(() => AuditInfo, { prefix: false })
+  auditInfo: AuditInfo;
 
   @BeforeInsert()
   generateId() {
     if (!this.id) {
-      this.id = uuidv4();
+      this.id = uuid();
     }
   }
 }

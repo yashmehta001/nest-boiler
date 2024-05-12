@@ -19,5 +19,8 @@ export const DatabaseProvider = TypeOrmModule.forRootAsync({
     migrations: [`${__dirname}/../migrations/*.{ts,js}`],
     synchronize: false,
     dropSchema: false,
+    cli: {
+      migrationsDir: 'src/database/migrations',
+    },
   }),
 });
