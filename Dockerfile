@@ -1,5 +1,5 @@
 # Stage 1: Base
-FROM node:18 AS builder
+FROM node:lts-alpine
 
 WORKDIR /app
 

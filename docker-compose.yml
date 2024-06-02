@@ -1,21 +1,9 @@
 version: '3'
-services:
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: nestjs_app
-    environment:
-      DATABASE_HOST: database
-      DATABASE_PORT: ${DB_PORT}
-      DATABASE_USER: ${DB_USERNAME}
-      DATABASE_PASSWORD: ${DB_PASSWORD}
-      DATABASE_NAME: ${DB_DATABASE}
-    ports:
-      - "${PORT}:${PORT}"
-    depends_on:
-      - database
 
+networks:
+  localdev:
+
+services:
   database:
     image: postgres:latest
     container_name: postgres_db
@@ -24,9 +12,36 @@ services:
       POSTGRES_USER: ${DB_USERNAME}
       POSTGRES_PASSWORD: ${DB_PASSWORD} 
     ports:
-      - "${DB_PORT}:${DB_PORT}"
+      - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    networks:
+      - localdev
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: nestjs_app
+    environment:
+      DATABASE_HOST: database
+      DATABASE_PORT: 5432
+      DATABASE_USER: ${DB_USERNAME}
+      DATABASE_PASSWORD: ${DB_PASSWORD}
+      DATABASE_NAME: ${DB_DATABASE}
+    ports:
+      - "${PORT}:${PORT}"
+    depends_on:
+      - database
+    networks:
+      - localdev
+
+
 
 volumes:
   postgres_data:

@@ -1,6 +1,5 @@
-import * as dotenv from 'dotenv';
+
 import { getOsEnv, getOsEnvOptional } from './utils/env/env-extensions';
-dotenv.config();
 
 export const env = {
   node: process.env.NODE_ENV || 'development',
