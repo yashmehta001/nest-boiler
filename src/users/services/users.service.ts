@@ -11,7 +11,6 @@ import {
 } from '../errors';
 import { LoggerService } from '../../utils/logger/WinstonLogger';
 
-
 export interface IUserService {
   createUser(data: UserCreateReqDto): Promise<any>;
   loginUser(data: UserLoginReqDto): Promise<any>;
@@ -39,7 +38,6 @@ export class UserService implements IUserService {
     data.password = await this.hashService.hash(data.password);
     try {
       const user = await this.userRepository.save(data);
-      console.log(user);
       const token = {
         id: user.id,
         email: user.email,

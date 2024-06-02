@@ -2,7 +2,7 @@ import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
 import { env } from '../../../env';
-import { REQUEST_USER_KEY, UserType } from '../types';
+import { REQUEST_USER_KEY, UserType } from '../../token/types';
 import { UnauthorizedException } from '../errors';
 
 @Injectable()
