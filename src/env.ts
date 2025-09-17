@@ -1,7 +1,7 @@
 import { getOsEnv, getOsEnvOptional } from './utils/env/env-extensions';
 
 export const env = {
-  node: process.env.NODE_ENV || 'development',
+  mode: process.env.NODE_ENV || 'development',
   isProduction: process.env.NODE_ENV === 'production',
   isTest: process.env.NODE_ENV === 'stagging',
   isDevelopment: process.env.NODE_ENV === 'development',
