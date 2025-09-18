@@ -24,7 +24,7 @@ import {
 import { Serialize } from '../utils/loaders/SerializeDto';
 import { UserService } from './services/users.service';
 import { AuthType } from '../utils/token/types';
-import { Auth } from '../utils/decorators/auth.decorator';
+import { Auth } from '../utils/authentication/decorator';
 
 @ApiTags('User')
 @Controller('user')
@@ -75,7 +75,7 @@ export class UsersController {
   })
   @ApiOkResponse({
     description:
-      'When user profile is successfully retrived then this response will receive',
+      'When user profile is successfully retrieved then this response will receive',
     type: UserProfileResDto,
   })
   @ApiBadRequestResponse({

@@ -1,16 +1,53 @@
-version: '3'
+version: '3.9'
+
+networks:
+  localdev:
+
 services:
   database:
     image: postgres:latest
     container_name: postgres_db
+    restart: unless-stopped
     environment:
       POSTGRES_DB: ${DB_DATABASE}
       POSTGRES_USER: ${DB_USERNAME}
       POSTGRES_PASSWORD: ${DB_PASSWORD} 
     ports:
-      - "${DB_PORT}:5432"
+      - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    networks:
+      - localdev
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: nestjs_app
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      DATABASE_HOST: database
+      DATABASE_PORT: 5432
+      DATABASE_USER: ${DB_USERNAME}
+      DATABASE_PASSWORD: ${DB_PASSWORD} 
+      DATABASE_NAME: ${DB_DATABASE}
+    ports:
+      - "3000:3000"
+    depends_on:
+      - database
+    networks:
+      - localdev
+    command: >
+      sh -c "
+      until nc -z database 5432; do
+        echo 'Waiting for Postgres...';
+        sleep 2;
+      done &&
+      npm run migrations &&
+      npm run start:dev
+      "
 
 volumes:
   postgres_data:

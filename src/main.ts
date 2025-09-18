@@ -2,7 +2,6 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { swaggerLoader } from './utils/loaders';
 import { ValidationPipe } from '@nestjs/common';
-import * as bodyParser from 'body-parser';
 import { env } from './env';
 import { ExceptionHandlerFilter } from './utils/error/exception-handler.filter';
 

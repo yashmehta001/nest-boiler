@@ -4,8 +4,8 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 // eslint-disable-next-line func-names
 export const swaggerLoader = function (app: INestApplication): void {
   const config = new DocumentBuilder()
-    .setTitle('Shop')
-    .setDescription('Shop API Description')
+    .setTitle('Project')
+    .setDescription('Project API Description')
     .addBearerAuth()
     .setVersion('1.0')
     .build();

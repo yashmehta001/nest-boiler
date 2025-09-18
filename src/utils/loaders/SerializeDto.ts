@@ -27,7 +27,7 @@ export class SerializeDtoInterceptor implements NestInterceptor {
       map((data) => {
         return {
           Error: false,
-          message: [this.message],
+          message: this.message ? [this.message] : null,
           data: this.responseDto ? dtoToResponse(this.responseDto, data) : {},
         };
       }),
