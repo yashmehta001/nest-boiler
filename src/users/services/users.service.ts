@@ -1,6 +1,9 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { UserCreateReqDto, UserLoginReqDto, UserProfileReqDto } from '../dto';
-import { UserRepository } from '../repository/users.repository';
+import {
+  IUserRepository,
+  UserRepository,
+} from '../repository/users.repository';
 import { TokenService } from '../../utils/token/services';
 import { HashService } from '../../utils/hash/hash.service';
 import { UserType } from '../../utils/token/types/user.enum';
@@ -21,7 +24,7 @@ export interface IUserService {
 export class UserService implements IUserService {
   constructor(
     @Inject(UserRepository)
-    private readonly userRepository: UserRepository,
+    private readonly userRepository: IUserRepository,
 
     private readonly logger: LoggerService,
 
