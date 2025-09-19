@@ -5,7 +5,7 @@ import { Repository } from 'typeorm/repository/Repository';
 import { UserCreateReqDto } from '../dto';
 
 export interface IUserRepository {
-  save(userEntity: UserEntity): Promise<UserEntity>;
+  save(userEntity: UserCreateReqDto): Promise<UserEntity>;
 
   getByEmail(email: string): Promise<UserEntity>;
 
